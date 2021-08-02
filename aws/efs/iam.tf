@@ -67,6 +67,6 @@ POLICY
 
 resource "aws_iam_role_policy_attachment" "eks_efs_policy_attachment" {
   count       = var.eks_integration ? 1 : 0
-  policy_arn = aws_iam_policy.eks_efs_csi_driver_policy.arn
-  role       = aws_iam_role.eks_efs_csi_driver_role.name
+  policy_arn = aws_iam_policy.eks_efs_csi_driver_policy.*.arn[count.index]
+  role       = aws_iam_role.eks_efs_csi_driver_role.*.name[count.index]
 }

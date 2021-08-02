@@ -37,7 +37,7 @@ variable "node_groups" {
       min_size     = number
     })
 
-    labels = map
+    labels = map(string)
   })
   )
 

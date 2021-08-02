@@ -18,7 +18,7 @@ module "iam_assumable_role_admin" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version                       = "3.6.0"
   create_role                   = var.enable_autoscaling ? true : false
-  role_policy_arns              = var.enable_autoscaling ? [aws_iam_policy.cluster_autoscaler_policy.arn] : []
+  role_policy_arns              = var.enable_autoscaling ? [aws_iam_policy.cluster_autoscaler_policy.*.arn[0]] : []
   role_name                     = "cluster-autoscaler-role-${var.cluster_name}"
   provider_url                  = replace(local.oidc_issuer_url, "https://", "")
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:cluster-autoscaler"]
@@ -38,7 +38,6 @@ resource "aws_iam_policy" "cluster_autoscaler_policy" {
 }
 
 data "aws_iam_policy_document" "cluster_autoscaler_policy_document" {
-  count = var.enable_autoscaling ? 1 : 0
 
   statement {
     sid    = "clusterAutoscaler"
