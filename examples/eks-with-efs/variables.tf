@@ -23,6 +23,11 @@ variable "eks_cluster_name" {
   default = "eks-cluster"
 }
 
+variable "eks_efs_integration" {
+  type    = bool
+  default = true
+}
+
 variable "node_groups" {
   type = list(
   object({
