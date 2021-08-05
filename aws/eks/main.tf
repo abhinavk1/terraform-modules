@@ -53,6 +53,7 @@ resource "aws_security_group" "cluster_security_group" {
 }
 
 resource "aws_security_group_rule" "allow_https_kube_api_access" {
+  count             = var.kube_api_public_access ? 1 : 0
   description       = "Allow communication with the cluster API Server"
   from_port         = 443
   protocol          = "tcp"
@@ -73,6 +74,7 @@ resource "aws_security_group_rule" "allow_worker_node_discovery" {
 }
 
 resource "aws_security_group_rule" "allow_efs_access" {
+  count             = var.allow_efs ? 1 : 0
   description       = "Allow network file system related operations"
   from_port         = 2049
   protocol          = "tcp"
@@ -93,7 +95,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 
     # Allow Kube API to be accessed from within and also outside of the cluster
     endpoint_private_access = true
-    endpoint_public_access  = true
+    endpoint_public_access  = var.kube_api_public_access
   }
 
   depends_on = [

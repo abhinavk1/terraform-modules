@@ -29,4 +29,5 @@ module "eks_cluster" {
   subnet_ids = module.vpc.public_subnet_ids # Workers will be in public subnets
   vpc_cidr_block = var.cidr_block
   vpc_id = module.vpc.vpc_id
+  kube_api_public_access = true
 }
