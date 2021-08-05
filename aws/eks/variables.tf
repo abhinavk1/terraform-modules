@@ -19,6 +19,15 @@ variable "cluster_name" {
   type = string
 }
 
+variable "kube_api_public_access" {
+  type = bool
+}
+
+variable "allow_efs" {
+  type    = bool
+  default = false
+}
+
 variable "manage_aws_auth" {
   type    = bool
   default = false

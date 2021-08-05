@@ -29,13 +29,15 @@ module "eks_cluster" {
   subnet_ids = module.vpc.private_subnet_ids
   vpc_cidr_block = var.cidr_block
   vpc_id = module.vpc.vpc_id
+  kube_api_public_access = true
+  allow_efs = var.eks_efs_integration
 }
 
 module "eks_efs" {
   source = "../../aws/efs"
 
   name = "efs"
-  eks_integration = true
+  eks_integration = var.eks_efs_integration
   oidc_provider_arn  = module.eks_cluster.oidc_provider_arn
   security_group_ids = [module.eks_cluster.security_group_id]
   subnet_ids         = module.vpc.private_subnet_ids
